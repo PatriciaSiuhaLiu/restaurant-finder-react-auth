@@ -1,0 +1,84 @@
+import React from 'react';
+import { Box, CssBaseline, Paper, Typography, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import routes from './routes';
+import { Routes, Route } from 'react-router-dom';
+import theme from './theme';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import { BrowserRouter, Router } from 'react-router-dom';
+import { AuthContextProvider } from "./context/AuthContext";
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Payment from './pages/Payment';
+import Logout from './components/auth/Logout';
+import Login from './pages/Login';
+import AddMenuItem from "./pages/AdminAddMenu";
+import Home from './pages/Home';
+import Layout from './pages/Layout';
+import PersistLogin from './components/auth/PersistLogin';
+import Unauthorized from './pages/Unauthorized';
+import UserRegister from './pages/RegisterUser';
+import LoginNew from './pages/LoginNew';
+import './App.css'
+import PaymentNew from './pages/PaymentNew';
+import MenuItem from './pages/MenuItem';
+import Cart from './pages/Cart';
+
+function App() {
+
+
+  return (
+    <AuthContextProvider>
+      <ThemeProvider theme={theme}>
+
+        <CssBaseline />
+        <Box height="100vh" display="flex" flexDirection="column">
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+
+
+
+              <Route path="/" element={<Layout />}>
+                <Route path="unauthorized" element={<Unauthorized />} />
+                <Route path='login' element={<LoginNew />} />
+                {/* <Route path='login' element={<Login />} /> */}
+                <Route path='newUserRegister' element={<UserRegister />} />
+
+                <Route path='paymentNew' element={<PaymentNew />} />
+
+                <Route element={<PersistLogin />} >
+                  {routes.map(route =>
+                    <Route path={route.path} element={<route.component />} />
+                  )
+                  }
+
+                  <Route element={<ProtectedRoute allowedRoles={[1000, 2000]} />}>
+                    <Route index element={<Home />} path="/home" />
+                  </Route>
+
+                  <Route element={<ProtectedRoute allowedRoles={[2000]} />}>
+                    <Route path="/adminAddMenu" element={<AddMenuItem />} />
+                  </Route>
+                  <Route element={<ProtectedRoute allowedRoles={[1000]} />}>
+                    <Route path='/restaurant/:id/menu' element={<MenuItem />} />
+                    <Route path='payment' element={<Payment />} />
+                  </Route>
+
+
+                </Route>
+
+
+         
+
+              </Route>
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </Box>
+      </ThemeProvider >
+    </AuthContextProvider>
+  );
+}
+
+export default App;

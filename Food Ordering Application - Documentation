@@ -1,0 +1,62 @@
+Food Ordering Application
+
+
+Introduction
+A Food Ordering Application is a software which targets food delivery and takeout by connecting customers with the 
+nearby eateries, diners, restaurants, cafes, and other establishments. This application makes the life easy by providing 
+an option to order the food and get it delivered on their doorsteps.
+
+This project has been inspired by the food ordering applications currently being used in the market. We have attempted to 
+create a similar kind of an application in which we have designed some of the major features that constitutes a food ordering application.
+
+
+Scope of the Project
+The project will demonstrate the basic functionality of a food ordering application. The features included will include all the 
+necessary operations and data to provide users to register, login, browse through the restaurant and food options and ultimately 
+place an order. This project will also exhibit some of the administrative functionality which will let the application owners to 
+perform certain functions necessary to run the app.
+
+
+Features in Scope
+•	Customer Registration
+•	User Login/Logout
+•	Admin - Home Page
+•	Admin - Add Restaurants
+•	Admin - Add Menu
+•	Display List of Restaurants
+•	Display Menu
+•	Add items to Cart
+•	Payment
+•	Reviews
+•	Contact Us
+•	About Us
+
+
+Technologies Incorporated
+Various technologies used the project are as follows:
+
+Frontend Technologies
+•	React with Typescript
+•	Material UI (For Styling)
+
+Backend Technologies
+•	Express JS
+•	Node JS
+
+Database Used
+•	Mongo DB
+
+
+Features Developed
+•	Customer Registration - A customer must register in our system in order to use the application. The registration process saves the user details in the database.
+•	Login/Logout - A registered user needs to login in the system to browse through the application. User can logout as per his/her choice.
+•	Admin Home Page - A user with administrative privileges has his/her own home page to have a comfortable view of all the features specific to an administrator.
+•	Admin Add Restaurants - An admin can add restaurants through this feature which will be registered in the database.
+•	Admin Add Menu - An admin can add menu specific to a particular restaurant through this feature.
+•	Display Restaurants - A customer can view all the restaurant options registered in the database.
+•	Display Menu - Customer can get a menu specific to a particular restaurant. He/She can browse through various options and add food items to the cart.
+•	Cart - All the food items added by the customer with their sum total of the price, will be displayed here.
+•	Payment - This page will have total price due and online payment facility displayed.
+•	Reviews - A customer can review restaurants/ food items through this feature.
+•	Contact Us - This page lets anyone, user or a visitor to the site, contact the application owner by filling the contact form.
+•	About Us - It contains the information about application and its developers.
