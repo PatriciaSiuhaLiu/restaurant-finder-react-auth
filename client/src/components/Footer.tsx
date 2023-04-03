@@ -17,12 +17,12 @@ export const Footer: FC = (): ReactElement => {
         <Grid container direction="column" alignItems="center">
           <Grid item xs={12}>
             <Typography color="black" variant="h5">
-              Food Online Order App
+             Restaurant Finder
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography color="textSecondary" variant="subtitle1">
-              {`${new Date().getFullYear()} | Order | Reviews | About Us`}
+              {`${new Date().getFullYear()} | Find | Reviews | About Us`}
             </Typography>
           </Grid>
         </Grid>

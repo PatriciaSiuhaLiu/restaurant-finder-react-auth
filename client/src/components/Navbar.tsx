@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useContext } from "react";
+import React, { FC, ReactElement, useContext,useEffect,useState } from "react";
 import styled from 'styled-components'
 import "./Navbar.css";
 import {
@@ -26,7 +26,11 @@ const Logout = styled.a`
 
 const Navbar: FC = (): ReactElement => {
 
+    const [initialState,setInitialState]=useState(true);
     //Functionality to redirect to the cart page.
+    useEffect(()=>{
+        setInitialState(false);
+    },[]);
     const navigate = useNavigate();
     const handleRedirect = () => {
         navigate("/cart");
@@ -49,13 +53,13 @@ const Navbar: FC = (): ReactElement => {
     const onLogout = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
-        const response = await axios.get(`${url}/api/v1/logout`, {
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem('jwt')
-            }
-        })
+        // const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
+        // const response = await axios.get(`${url}/api/v1/logout`, {
+        //     withCredentials: true,
+        //     headers: {
+        //         "Authorization": "Bearer " + localStorage.getItem('jwt')
+        //     }
+        // })
 
         // set isLoggedin false here
         auth.logout();
@@ -64,7 +68,12 @@ const Navbar: FC = (): ReactElement => {
 
     }
     return (
-        <Box
+        <>
+     
+        { initialState?
+        (
+            <p>Loading...</p> //with this check we are avoiding the immediate load of Outlet as initally the auth context will be blank,
+          ) : <Box
             sx={{
                 width: "100%",
                 height: "auto",
@@ -149,7 +158,7 @@ const Navbar: FC = (): ReactElement => {
                             }}
                         >
 
-                            {auth.auth.email && auth.auth.roles.find(role => role == 2000 || role == 1000) && (
+                            {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN" || role == "ROLE_USER") && (
                                 <>
 
                                     <Link
@@ -167,7 +176,7 @@ const Navbar: FC = (): ReactElement => {
 
                                 </>
                             )}
-                            {auth.auth.email && auth.auth.roles.find(role => role == 1000) && (
+                            {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
                                 <>
                                     {/* <Link
                                         //   key={page.key}
@@ -200,7 +209,7 @@ const Navbar: FC = (): ReactElement => {
                             )}
 
 
-                            {auth.auth.email && auth.auth.roles.find(role => role == 2000) && (
+                            {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN") && (
                                 <>
 
                                     <Link
@@ -245,7 +254,7 @@ const Navbar: FC = (): ReactElement => {
                                     marginLeft: "1rem",
                                 }}
                             >
-                                {auth.auth.email && auth.auth.roles.find(role => role == 1000) && (
+                                {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
                                     <>
                                         <IconButton aria-label="cart" color="inherit" onClick={handleRedirect} edge="end"
                                             style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem' }}>
@@ -299,6 +308,8 @@ const Navbar: FC = (): ReactElement => {
                 </Toolbar>
             </Container>
         </Box>
+}
+        </>
     );
 };
 

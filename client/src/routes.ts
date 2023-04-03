@@ -43,13 +43,13 @@ const routes: Array<Route> = [
     //     component: RestaurantFinder
     // }
     // ,
-    {
-        key: "route-about",
-        title: "About",
-        path: "/about",
-        enabled: true,
-        component: About
-    },
+    // {
+    //     key: "route-about",
+    //     title: "About",
+    //     path: "/about",
+    //     enabled: true,
+    //     component: About
+    // },
     {
         key: "route-contactUs",
         title: "Contact Us",

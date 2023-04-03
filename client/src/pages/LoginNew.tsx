@@ -21,7 +21,7 @@ const StyledFormButton = styled.button`
 
 const LoginNew = () => {
     interface ValueType {
-        email: string;
+        username: string;
         password: string;
     }
     type Input = {
@@ -38,7 +38,7 @@ const LoginNew = () => {
     const { auth, setAuthentication } = useAuth();
     const navigate = useNavigate();
     const [values, setValues] = useState<ValueType>({
-        email: "",
+        username: "",
         password: "",
     });
     const [authError, setAuthError] = useState(false)
@@ -48,13 +48,13 @@ const LoginNew = () => {
     const inputs: Input[] = [
         {
             id: 1,
-            name: "email",
-            type: "email",
-            placeholder: "Email",
-            label: "Email",
+            name: "username",
+            type: "text",
+            placeholder: "Username",
+            label: "Username",
             required: true,
             autoComplete: "off",
-            errorMessage: "Enter valid email id",
+            errorMessage: "Enter valid Username",
         },
         {
             id: 2,
@@ -81,8 +81,8 @@ const LoginNew = () => {
 
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
             const response = await axios.post(
-                `${url}/api/v1/login`,
-                { email: values.email, password: values.password },
+                `${url}/api/auth/login`,
+                { username: values.username, password: values.password },
                 {
                     withCredentials: true,
                     headers: {
@@ -91,19 +91,31 @@ const LoginNew = () => {
                 },
             );
 
-            const { user, token } = response.data;
+            const { userId, accessToken, refreshToken } = response.data;
+            localStorage.setItem(("jwt"), accessToken);
+            localStorage.setItem(("refreshToken"), refreshToken);
+            // gets the user details based on the jwt token
+            const loggedInUserDetailsResponse = await axios.get(
+                `${url}/api/users/me`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem('jwt')
+                    }
+                },
+            )
 
+            const loggedInUserDetails = loggedInUserDetailsResponse.data;
             const authData = {
-                email: user.email,
-                name: user.name,
-                roles: user.roles,
-                token
+                email: loggedInUserDetails.email,
+                name: loggedInUserDetails.username,
+                roles: loggedInUserDetails.userRoles
             }
 
 
             setAuthentication(authData);
 
-            localStorage.setItem(("jwt"), token);
+         
             navigate("/home");
         } catch (error) {
 

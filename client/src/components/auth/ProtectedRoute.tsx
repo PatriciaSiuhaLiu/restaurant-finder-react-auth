@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 // import { AuthContextType } from '../../context/AuthContext';
 import useAuth from '../../hooks/useAuth';
 
-const ProtectedRoute = ({ allowedRoles }: { allowedRoles: Array<number> }) => {
+const ProtectedRoute = ({ allowedRoles }: { allowedRoles: Array<string> }) => {
     // type AuthType = {
     //     email: string;
     //     name: string;
