@@ -24,7 +24,7 @@ interface MenuSchema {
 
 interface Restaurant {
   _id: string,
-  restaurant_id: string,
+  restaurantId: string,
   name: string,
   cuisine: string,
   address: AddressSchema,
@@ -94,7 +94,7 @@ const RestaurantFinder = () => {
     try {
       const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
       const response = await axios.get(
-        `${url}/api/v1/restaurants`,
+        `${url}/api/restaurants`,
         {
           withCredentials: true,
           headers: {
@@ -104,7 +104,7 @@ const RestaurantFinder = () => {
       )
       console.log(response);
 
-      setRestaurants(response.data.results.filter(function (element: Restaurant) {
+      setRestaurants(response.data.filter(function (element: Restaurant) {
         return element.reviews[0] !== undefined;
       }));
 
@@ -125,8 +125,8 @@ const RestaurantFinder = () => {
   let navigate = useNavigate();
 
   function handleClick(index: number) {
-    console.log(restaurants[index].restaurant_id);
-    let id = restaurants[index]._id;
+    console.log(restaurants[index].restaurantId);
+    let id = restaurants[index].restaurantId;
     navigate(`/restaurant/${id}/menu`);
   }
 

@@ -39,7 +39,7 @@ const MenuItem = (props: Props) => {
       const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
 
       const response = await axios.get(
-        `${url}/api/v1/restaurants/${params.id}/menuList`,
+        `${url}/api/restaurants/${params.id}/menuList`,
         {
           withCredentials: true,
           headers: {

@@ -211,18 +211,29 @@ const Navbar: FC = (): ReactElement => {
 
                             {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN") && (
                                 <>
-
                                     <Link
                                         //   key={page.key}
                                         component={NavLink}
-                                        to={"/adminAddMenu"}
+                                        to={"/addRestaurant"}
+                                        color="white"
+                                        aria-label={"AddRestaurant"}
+                                        underline="none"
+                                        variant="button"
+                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
+                                    >
+                                        {"Add Restaurant"}
+                                    </Link>
+                                    <Link
+                                        //   key={page.key}
+                                        component={NavLink}
+                                        to={"/addMenu"}
                                         color="white"
                                         aria-label={"adminAddMenu"}
                                         underline="none"
                                         variant="button"
                                         sx={{ fontSize: "large", marginLeft: "2rem" }}
                                     >
-                                        {"Admin Add Menu"}
+                                        {"Add Menu"}
                                     </Link>
 
                                 </>

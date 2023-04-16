@@ -3,12 +3,12 @@ import { Form, FormGroup, Label, Input, Button, Dropdown, DropdownToggle, Dropdo
 import axios from 'axios';
 
 interface RestaurantSchema {
-    _id: string,
+    restaurant_id: string,
     name: string,
 }
 
 interface MenuSchema {
-    // menu_id: string;
+    menu_id: string;
     menu_name: string;
     menu_category: string;
     menu_image: string;
@@ -20,7 +20,7 @@ const AddMenuItem: React.FC = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState<RestaurantSchema | null>(null);
     const [menu, setMenu] = useState<MenuSchema>({
-        // menu_id: '',
+        menu_id: '',
         menu_name: '',
         menu_category: '',
         menu_image: '',
@@ -33,7 +33,7 @@ const AddMenuItem: React.FC = () => {
 
                 const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
 
-                const response = await axios.get(`${url}/api/v1/restaurants`,
+                const response = await axios.get(`${url}/api/restaurants`,
                     {
                         withCredentials: true,
                         headers: {
@@ -42,7 +42,7 @@ const AddMenuItem: React.FC = () => {
                     }
 
                 );
-                setRestaurants(response.data.results);
+                setRestaurants(response.data);
             } catch (error) {
                 console.error(error);
             }
@@ -52,7 +52,7 @@ const AddMenuItem: React.FC = () => {
 
     useEffect(() => {
         if (selectedRestaurant) {
-            setMenu((prevMenu) => ({ ...prevMenu, _id: selectedRestaurant._id }));
+            setMenu((prevMenu) => ({ ...prevMenu, restaurant_id: selectedRestaurant.restaurant_id }));
 
         }
     }, [selectedRestaurant]);
@@ -72,7 +72,7 @@ const AddMenuItem: React.FC = () => {
         try { //http://localhost:8000/api/v1/restaurants/640ebdf14253cbaa5b96969c/menuList
 
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
-            const response = await axios.post(`${url}/api/v1/restaurants/${selectedRestaurant?._id}/menuList`, menu,
+            const response = await axios.post(`${url}/api/restaurants/${selectedRestaurant?.restaurant_id}/menuList`, menu,
                 {
                     withCredentials: true,
                     headers: {
@@ -97,7 +97,7 @@ const AddMenuItem: React.FC = () => {
                     </DropdownToggle>
                     <DropdownMenu>
                         {restaurants.map((restaurant) => (
-                            <DropdownItem key={restaurant._id.toString()} onClick={() => setSelectedRestaurant(restaurant)}>
+                            <DropdownItem key={restaurant.restaurant_id.toString()} onClick={() => setSelectedRestaurant(restaurant)}>
                                 {restaurant.name}
                             </DropdownItem>
                         ))}

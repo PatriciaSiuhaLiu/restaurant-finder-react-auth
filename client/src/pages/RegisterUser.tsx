@@ -62,8 +62,8 @@ const UserRegister = () => {
         try {
 
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
-            const response = await axios.post(`${url}/api/v1/add`, {
-                name: formData.name,
+            const response = await axios.post(`${url}/api/auth/signup`, {
+                username: formData.name,
                 email: formData.email,
                 password: formData.password
             })
