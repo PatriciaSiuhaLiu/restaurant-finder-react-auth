@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, FormGroup, Label, Input, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import axios from 'axios';
+import Typography from '@mui/material/Typography';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 interface RestaurantSchema {
     restaurantId: string,
@@ -19,6 +21,18 @@ const AddMenuItem: React.FC = () => {
     const [restaurants, setRestaurants] = useState<RestaurantSchema[]>([]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedRestaurant, setSelectedRestaurant] = useState<RestaurantSchema | null>(null);
+
+    const [open, setOpen] = useState(false);
+
+    const handleRefresh = () =>{
+        window.location.reload();
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        handleRefresh();
+    };
+
     const [menu, setMenu] = useState<MenuSchema>({
         menu_id: '',
         menu_name: '',
@@ -57,6 +71,15 @@ const AddMenuItem: React.FC = () => {
         }
     }, [selectedRestaurant]);
 
+    const successMessage = () => {
+        return (
+            <div className="success">
+                <Typography component="h1" variant="h6">
+                    {menu.menu_name} has been successfully added to the menu for {selectedRestaurant?.name}!!</Typography>
+            </div>
+        );
+    };
+
 
     // useEffect(() => {
     //     const randomId = Math.floor(Math.random() * 10);
@@ -81,12 +104,15 @@ const AddMenuItem: React.FC = () => {
                 }
             );
             console.log(response.data);
+            setOpen(true);
+
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
+        <>
         <Form className='form-control' onSubmit={handleSubmit}>
 
             <FormGroup className='form-control'>
@@ -116,6 +142,17 @@ const AddMenuItem: React.FC = () => {
                 <Button variant="link">Submit</Button>
             </FormGroup>
         </Form>
+        {/* Dialog box to appear on successful form submission. */}
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle style={{ fontWeight: 'bold' }}>Item successfully added in the Menu!</DialogTitle>
+                <DialogContent>
+                    {successMessage()}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} variant="outlined">Close</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

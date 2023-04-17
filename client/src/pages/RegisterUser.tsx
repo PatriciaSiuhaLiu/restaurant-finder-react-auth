@@ -188,7 +188,7 @@ const UserRegister = () => {
             </Grid>
             {/* Dialog box to appear on successful form submission. */}
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Registration Successful!</DialogTitle>
+                <DialogTitle style={{ fontWeight: 'bold' }}>Registration Successful!</DialogTitle>
                 <DialogContent>
                     {successMessage()}
                 </DialogContent>

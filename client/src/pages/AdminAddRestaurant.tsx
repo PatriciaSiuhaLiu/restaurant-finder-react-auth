@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import routes from "../routes";
 
 interface FormState {
     name: string,
@@ -15,6 +16,25 @@ interface FormState {
     email: string
 }
 const AdminAddRestaurant = () => {
+    const [open, setOpen] = useState(false);
+
+    const handleRefresh = () =>{
+        window.location.reload();
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        handleRefresh();
+    };
+
+    const successMessage = () => {
+        return (
+            <div className="success">
+                <Typography component="h1" variant="h6">
+                    {formData.name} restaurant has been successfully registered in our database!!</Typography>
+            </div>
+        );
+    };
 
     const [formData, setFormData] = useState<FormState>({
         name: '',
@@ -34,6 +54,7 @@ const AdminAddRestaurant = () => {
             [name]: value,
         }));
     };
+
 
     const handleSubmit = async () => {
         console.log(formData)
@@ -61,8 +82,7 @@ const AdminAddRestaurant = () => {
             );
             {   
                 console.log(response);
-                //Dialog box opens.
-                // setOpen(true);
+                setOpen(true);
             }
         }
         catch(err:any){
@@ -170,6 +190,16 @@ const AdminAddRestaurant = () => {
                 <Button onClick={handleSubmit} variant="outlined">
                     Submit
                 </Button>
+                {/* Dialog box to appear on successful form submission. */}
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle style={{ fontWeight: 'bold' }}>Saved Successfully!</DialogTitle>
+                    <DialogContent>
+                        {successMessage()}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} variant="outlined">Close</Button>
+                    </DialogActions>
+                </Dialog>
         </Grid>  
         </div>
     );

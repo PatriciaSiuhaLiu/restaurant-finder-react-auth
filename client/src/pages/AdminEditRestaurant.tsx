@@ -20,6 +20,26 @@ interface FormState {
 }
 const AdminEditRestaurant = () => {
     let params = useParams();
+    const [open, setOpen] = useState(false);
+
+    let navigate = useNavigate();
+    const handleRedirect = () =>{
+    navigate("/findRestaurant");
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        handleRedirect();
+    };
+
+    const successMessage = () => {
+        return (
+            <div className="success">
+                <Typography component="h1" variant="h6">
+                    {formData.name} restaurant data has been successfully updated and saved in our database!!</Typography>
+            </div>
+        );
+    };
 
     const [formData, setFormData] = useState<FormState>({
         restaurantId:'',
@@ -48,7 +68,20 @@ const AdminEditRestaurant = () => {
               }
             }
           )
-          setFormData(response.data);
+          const form = {
+            restaurantId: response.data.restaurantId,
+            name: response.data.name,
+            cuisine: response.data.cuisine,
+            building: response.data.address.building,
+            street: response.data.address.street,
+            zipcode: response.data.address.zipcode,
+            image: response.data.image,
+            reviews:response.data.reviews,
+            menu_list: response.data.menu_list,
+            phone: response.data.phone,
+            email: response.data.email
+        };
+          setFormData(form);
           console.log(formData);
           
         } catch (err) {
@@ -60,7 +93,6 @@ const AdminEditRestaurant = () => {
       useEffect(() => {
         sendGetRequest()    
       }, []);
-
 
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -99,8 +131,7 @@ const AdminEditRestaurant = () => {
             );
             {   
                 console.log(response);
-                //Dialog box opens.
-                // setOpen(true);
+                setOpen(true);
             }
         }
         catch(err:any){
@@ -208,6 +239,16 @@ const AdminEditRestaurant = () => {
                 <Button onClick={handleSubmit} variant="outlined">
                     Submit
                 </Button>
+                {/* Dialog box to appear on successful form submission. */}
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle style={{ fontWeight: 'bold' }}>Update Success</DialogTitle>
+                    <DialogContent>
+                        {successMessage()}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} variant="outlined">Close</Button>
+                    </DialogActions>
+                </Dialog>
         </Grid>  
         </div>
     );

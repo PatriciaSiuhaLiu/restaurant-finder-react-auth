@@ -18,6 +18,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext, { AuthContextType } from "../context/AuthContext";
 import axios from "axios";
 import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
+import LunchDiningTwoToneIcon from '@mui/icons-material/LunchDiningTwoTone';
+import LocalPizzaTwoToneIcon from '@mui/icons-material/LocalPizzaTwoTone';
+import FoodBankTwoToneIcon from '@mui/icons-material/FoodBankTwoTone';
 
 const Logout = styled.a`
     font-size: 19px;
@@ -84,13 +87,15 @@ const Navbar: FC = (): ReactElement => {
                 <Toolbar disableGutters>
                     <Typography
                         variant="h5"
+                        fontFamily="cursive"
                         noWrap
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex"},
                         }}
-                    >
+                    >  
                         GRAB A BITE
+                        <LunchDiningTwoToneIcon fontSize="large"></LunchDiningTwoToneIcon>
                     </Typography>
                     {/* add menu for mobile */}
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

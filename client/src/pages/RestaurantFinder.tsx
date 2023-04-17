@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import CSS from 'csstype';
 import AuthContext, { AuthContextType } from "../context/AuthContext";
 
@@ -41,6 +40,8 @@ interface RestaurantCardProps {
   key: string;
   name: string;
   image: string;
+  email: string;
+  phone: string;
   address: AddressSchema;
   reviews: [ReviewSchema];
   onClick: () => void;
@@ -49,25 +50,33 @@ interface RestaurantCardProps {
 }
 
 const space: CSS.Properties = {
-  marginRight: '1rem'
+  marginRight: '0.5rem'
 };
 
 const margin: CSS.Properties = {
-  marginTop: '1rem'
+  marginTop: '0.5rem'
 };
+
+const spacing: CSS.Properties = {
+  marginTop: '0.05rem',
+  marginBottom: '0.1rem',
+  textAlign: 'center'
+}
 
 function RestaurantCard(props: RestaurantCardProps) {
   const auth = useContext(AuthContext) as AuthContextType;
   return (
     <div className="restaurant-card" onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
       onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
-
       <img src={props.image} alt={props.name} className="restaurant-photo" />
-      <h2 className="restaurant-name">{props.name} </h2>
-      <p> Address: {props.address.building}, {props.address.street}, {props.address.zipcode}</p>
+      <div style={spacing}>
+        <h6>{props.name} </h6>
+        <span> <b>Address:</b> {props.address.building}, {props.address.street}, {props.address.zipcode}</span><br></br>
+        <span> <b>Contact:</b> {props.email}, {props.phone}</span>
+      </div>
       {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN") && (
       <div>
-        <button style={space} className="btn btn-primary" onClick={props.handleEdit}>Edit</button> 
+        <button style={space} className="btn btn-primary" onClick={props.handleEdit}>Update</button> 
         <button className="btn btn-danger" onClick={props.handleDelete}>Delete</button>
       </div>
       )}
@@ -151,7 +160,7 @@ const RestaurantFinder = () => {
         }
       });
       console.log(response);
-      {handleRedirect};
+      window.location.reload();
     }
     catch (err) {
       console.log(err);
@@ -202,6 +211,8 @@ const RestaurantFinder = () => {
               key={restaurant.restaurantId}
               name={restaurant.name}
               image={restaurant.image[0]}
+              email={restaurant.email}
+              phone={restaurant.phone}
               address={restaurant.address}
               reviews={restaurant.reviews}
               onClick={() => handleClick(index)}
