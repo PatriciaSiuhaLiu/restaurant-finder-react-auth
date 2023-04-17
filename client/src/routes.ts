@@ -50,13 +50,13 @@ const routes: Array<Route> = [
     //     enabled: true,
     //     component: About
     // },
-    {
-        key: "route-contactUs",
-        title: "Contact Us",
-        path: "/contactUs",
-        enabled: true,
-        component: ContactUs
-    },
+    // {
+    //     key: "route-contactUs",
+    //     title: "Contact Us",
+    //     path: "/contactUs",
+    //     enabled: true,
+    //     component: ContactUs
+    // },
     // {
     //     key: "route-AdminAddMenu",
     //     title: "Admin Add Menu",

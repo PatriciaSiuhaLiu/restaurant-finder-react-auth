@@ -24,6 +24,7 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import RestaurantFinder from './pages/RestaurantFinder';
 import PageNotFound from './pages/PageNotFound';
 import AdminAddRestaurant from './pages/AdminAddRestaurant';
+import AdminEditRestaurant from './pages/AdminEditRestaurant';
 
 
 function App() {
@@ -57,12 +58,14 @@ function App() {
 
                   <Route element={<ProtectedRoute allowedRoles={[ "ROLE_ADMIN"]} />}>
                     <Route path="/addRestaurant" element={<AdminAddRestaurant/>} />
+                    <Route path="/editRestaurant/:id" element={<AdminEditRestaurant/>} />
                     <Route path="/addMenu" element={<AddMenuItem />} />
+                    <Route path="/editMenu" element={<AddMenuItem />} />
                   </Route>
                   <Route element={<ProtectedRoute allowedRoles={["ROLE_USER"]} />}>
 
                     <Route path='/restaurant/:id/menu' element={<MenuItem />} />
-                    <Route path='cart' element={<Cart />} />
+                    {/* <Route path='cart' element={<Cart />} /> */}
                     <Route path='/findRestaurant/' element={<RestaurantFinder />} />
                     <Route path='payment/:amount' element={<PaymentNew />} />
                     <Route path='paymentSucess/:paymentId' element={<PaymentSuccess />} />

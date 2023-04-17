@@ -83,14 +83,14 @@ const Navbar: FC = (): ReactElement => {
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         sx={{
                             mr: 2,
-                            display: { xs: "none", md: "flex" },
+                            display: { xs: "none", md: "flex"},
                         }}
                     >
-                        Online order App
+                        GRAB A BITE
                     </Typography>
                     {/* add menu for mobile */}
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -140,12 +140,12 @@ const Navbar: FC = (): ReactElement => {
                         </Menu>
                     </Box>
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
                     >
-                        Online order App
+                        GRAB A BITE
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                         <Box
@@ -223,6 +223,18 @@ const Navbar: FC = (): ReactElement => {
                                     >
                                         {"Add Restaurant"}
                                     </Link>
+                                    {/* <Link
+                                        //   key={page.key}
+                                        component={NavLink}
+                                        to={"/editRestaurant"}
+                                        color="white"
+                                        aria-label={"AddRestaurant"}
+                                        underline="none"
+                                        variant="button"
+                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
+                                    >
+                                        {"Edit Restaurant"}
+                                    </Link> */}
                                     <Link
                                         //   key={page.key}
                                         component={NavLink}
@@ -235,6 +247,18 @@ const Navbar: FC = (): ReactElement => {
                                     >
                                         {"Add Menu"}
                                     </Link>
+                                    {/* <Link
+                                        //   key={page.key}
+                                        component={NavLink}
+                                        to={"/editMenu"}
+                                        color="white"
+                                        aria-label={"adminAddMenu"}
+                                        underline="none"
+                                        variant="button"
+                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
+                                    >
+                                        {"Edit Menu"}
+                                    </Link> */}
 
                                 </>
                             )}
@@ -265,7 +289,7 @@ const Navbar: FC = (): ReactElement => {
                                     marginLeft: "1rem",
                                 }}
                             >
-                                {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
+                                {/* {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
                                     <>
                                         <IconButton aria-label="cart" color="inherit" onClick={handleRedirect} edge="end"
                                             style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem' }}>
@@ -274,7 +298,7 @@ const Navbar: FC = (): ReactElement => {
 
 
                                     </>
-                                )}
+                                )} */}
                                 {!auth.auth.email && (
                                     <>
 

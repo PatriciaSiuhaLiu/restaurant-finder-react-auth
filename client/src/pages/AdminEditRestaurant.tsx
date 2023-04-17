@@ -3,30 +3,70 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Grid, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { useParams } from 'react-router-dom';
 
 interface FormState {
+    restaurantId: string,
     name: string,
     cuisine: string,
-    building: string,
-    street: string,
-    zipcode: string,
+    address:{
+        building: string,
+        street: string,
+        zipcode: string
+    },
+    reviews:[],
+    menu_list:[],
     image: [string],
     phone: string,
     email: string
 }
-const AdminAddRestaurant = () => {
+const AdminEditRestaurant = () => {
+    let params = useParams();
 
     const [formData, setFormData] = useState<FormState>({
+        restaurantId:'',
         name: '',
         cuisine: '',
-        building: '',
-        street: '',
-        zipcode: '',
+        address:{
+            building: '',
+            street: '',
+            zipcode: ''
+        },
         image: [''],
+        reviews:[],
+        menu_list:[],
         phone: '',
         email: ''
 
     });
+
+    const sendGetRequest = async () => {
+        try {
+          const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";   
+          const response = await axios.get(
+            `${url}/api/restaurants/${params.id}`,
+            {
+              withCredentials: true,
+              headers: {
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+              }
+            }
+          )
+          setFormData(response.data);
+          console.log(formData);
+          
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    
+    
+      useEffect(() => {
+        sendGetRequest()    
+      }, []);
+
+
+
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -36,20 +76,23 @@ const AdminAddRestaurant = () => {
     };
 
     const handleSubmit = async () => {
-        console.log(formData)
+        console.log(formData);
         try{
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
-            const response = await axios.post(`${url}/api/restaurants`, {
-                    restaurant_id: '',
+            const response = await axios.put(`${url}/api/restaurants/${formData.restaurantId}`, {
+                    restaurantId: formData.restaurantId,
                     name: formData.name,
                     cuisine: formData.cuisine,
-                    building: formData.building,
-                    street: formData.street,
-                    zipcode: formData.zipcode,
+                    address:{
+                        building: formData.address.building,
+                        street: formData.address.street,
+                        zipcode: formData.address.zipcode,
+                    },
                     image: ['https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg'],
                     phone: formData.phone,
                     email: formData.email,
-                    reviews: [],
+                    reviews: formData.reviews,
+                    menu_list: formData.menu_list
                 },
                 {
                     withCredentials: true,
@@ -81,12 +124,12 @@ const AdminAddRestaurant = () => {
         spacing={2.5}>
             <Grid item>
                 <Typography component="h1" variant="h4" style = {{marginTop:"2em", marginBottom:"0.5em"}}>
-                    Add New Restaurant 
+                    Edit Restaurant Information
                 </Typography>
             </Grid>
             <Grid item>
                 <p>
-                   Let's have your information to register your restaurant.
+                   Please enter the details you want to update.
                 </p>
             </Grid>
                 <TextField fullWidth style = {{marginBottom:"2em"}}
@@ -118,7 +161,7 @@ const AdminAddRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Building"
                     name="building"
-                    value={formData.building}
+                    value={formData.address.building}
                     onChange={handleChange}
                     required
                 />
@@ -128,7 +171,7 @@ const AdminAddRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Street"
                     name="street"
-                    value={formData.street}
+                    value={formData.address.street}
                     onChange={handleChange}
                     required
                 />
@@ -138,7 +181,7 @@ const AdminAddRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Zipcode"
                     name="zipcode"
-                    value={formData.zipcode}
+                    value={formData.address.zipcode}
                     onChange={handleChange}
                     required
                 />
@@ -174,4 +217,4 @@ const AdminAddRestaurant = () => {
     );
 }
 
-export default AdminAddRestaurant;
+export default AdminEditRestaurant;

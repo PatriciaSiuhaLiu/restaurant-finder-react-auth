@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import CSS from 'csstype';
+import AuthContext, { AuthContextType } from "../context/AuthContext";
 
 interface AddressSchema {
   building: string,
@@ -42,20 +45,36 @@ interface RestaurantCardProps {
   address: AddressSchema;
   reviews: ReviewSchema;
   onClick: () => void;
+  handleDelete: () => void;
+  handleEdit: () => void;
 }
 
+const space: CSS.Properties = {
+  marginRight: '1rem'
+};
+
+const margin: CSS.Properties = {
+  marginTop: '1rem'
+};
 
 function RestaurantCard(props: RestaurantCardProps) {
+  const auth = useContext(AuthContext) as AuthContextType;
   return (
-    <div onClick={props.onClick} className="restaurant-card" onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+    <div className="restaurant-card" onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
       onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}>
 
       <img src={props.image} alt={props.name} className="restaurant-photo" />
       <h2 className="restaurant-name">{props.name} </h2>
       <p> Address: {props.address.building}, {props.address.street}, {props.address.zipcode}</p>
-      <a href="#" className="btn btn-primary">Reviews</a>
-
-
+      {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN") && (
+      <div>
+        <button style={space} className="btn btn-primary" onClick={props.handleEdit}>Edit</button> 
+        <button className="btn btn-danger" onClick={props.handleDelete}>Delete</button>
+      </div>
+      )}
+      <div style={margin}>
+        <button className="btn btn-secondary" onClick={props.onClick}>View Menu</button>
+      </div>
     </div>
   );
 }
@@ -116,13 +135,39 @@ const RestaurantFinder = () => {
       console.log(err);
     }
   };
-
+  let navigate = useNavigate();
+  const handleRedirect = () =>{
+    navigate("/findRestaurant");
+  }
+  const handleDelete = async (index: number) => {
+    //let params = useParams();
+    try {
+      const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
+      const id = restaurants[index].restaurantId;
+      console.log(id);
+      const response = await axios.delete(`${url}/api/restaurants/${id}`,{
+        withCredentials: true,
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem('jwt')
+        }
+      });
+      console.log(response);
+      {handleRedirect};
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     sendGetRequest()
   }, []);
 
-  let navigate = useNavigate();
+  function handleEdit(index: number) {
+    console.log(restaurants[index].restaurantId);
+    let id = restaurants[index].restaurantId;
+    navigate(`/editRestaurant/${id}`);
+  }
 
   function handleClick(index: number) {
     console.log(restaurants[index].restaurantId);
@@ -162,7 +207,10 @@ const RestaurantFinder = () => {
               image={restaurant.image[0]}
               address={restaurant.address}
               reviews={restaurant.reviews[0]}
-              onClick={() => handleClick(index)} />
+              onClick={() => handleClick(index)}
+              handleDelete={()=> handleDelete(index)}
+              handleEdit={()=>handleEdit(index)}
+               />
           ))}
         </section>
       </main>
