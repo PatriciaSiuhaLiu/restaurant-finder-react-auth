@@ -26,7 +26,6 @@ interface MenuSchema {
 }
 
 interface Restaurant {
-  _id: string,
   restaurantId: string,
   name: string,
   cuisine: string,
@@ -43,7 +42,7 @@ interface RestaurantCardProps {
   name: string;
   image: string;
   address: AddressSchema;
-  reviews: ReviewSchema;
+  reviews: [ReviewSchema];
   onClick: () => void;
   handleDelete: () => void;
   handleEdit: () => void;
@@ -122,14 +121,14 @@ const RestaurantFinder = () => {
         }
       )
       console.log(response);
-
-      setRestaurants(response.data.filter(function (element: Restaurant) {
+      setRestaurants(response.data);
+      /* setRestaurants(response.data.filter(function (element: Restaurant) {
         return element.reviews[0] !== undefined;
-      }));
+      })); */
 
-      setTempVar(response.data.results.filter(function (element: Restaurant) {
+      /* setTempVar(response.data.results.filter(function (element: Restaurant) {
         return element.reviews[0] !== undefined;
-      }));
+      })); */
 
     } catch (err) {
       console.log(err);
@@ -198,15 +197,13 @@ const RestaurantFinder = () => {
             </div>
           ))} */}
 
-          {restaurants.filter(function (element) {
-            return element.reviews[0] !== undefined;
-          }).map((restaurant, index) => (
+          {restaurants.map((restaurant, index) => (
             <RestaurantCard
-              key={restaurant._id}
+              key={restaurant.restaurantId}
               name={restaurant.name}
               image={restaurant.image[0]}
               address={restaurant.address}
-              reviews={restaurant.reviews[0]}
+              reviews={restaurant.reviews}
               onClick={() => handleClick(index)}
               handleDelete={()=> handleDelete(index)}
               handleEdit={()=>handleEdit(index)}

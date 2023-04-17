@@ -40,12 +40,13 @@ const AdminAddRestaurant = () => {
         try{
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
             const response = await axios.post(`${url}/api/restaurants`, {
-                    restaurant_id: '',
                     name: formData.name,
                     cuisine: formData.cuisine,
-                    building: formData.building,
-                    street: formData.street,
-                    zipcode: formData.zipcode,
+                    address: {
+                        building: formData.building,
+                        street: formData.street,
+                        zipcode: formData.zipcode,
+                    },
                     image: ['https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg'],
                     phone: formData.phone,
                     email: formData.email,

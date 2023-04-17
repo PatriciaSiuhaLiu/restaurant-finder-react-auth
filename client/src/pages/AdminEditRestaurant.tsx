@@ -9,11 +9,9 @@ interface FormState {
     restaurantId: string,
     name: string,
     cuisine: string,
-    address:{
-        building: string,
-        street: string,
-        zipcode: string
-    },
+    building: string,
+    street: string,
+    zipcode: string,
     reviews:[],
     menu_list:[],
     image: [string],
@@ -27,11 +25,9 @@ const AdminEditRestaurant = () => {
         restaurantId:'',
         name: '',
         cuisine: '',
-        address:{
-            building: '',
-            street: '',
-            zipcode: ''
-        },
+        building: '',
+        street: '',
+        zipcode: '',
         image: [''],
         reviews:[],
         menu_list:[],
@@ -80,13 +76,13 @@ const AdminEditRestaurant = () => {
         try{
             const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
             const response = await axios.put(`${url}/api/restaurants/${formData.restaurantId}`, {
-                    restaurantId: formData.restaurantId,
+                restaurantId: formData.restaurantId,
                     name: formData.name,
                     cuisine: formData.cuisine,
                     address:{
-                        building: formData.address.building,
-                        street: formData.address.street,
-                        zipcode: formData.address.zipcode,
+                        building: formData.building,
+                        street: formData.street,
+                        zipcode: formData.zipcode,
                     },
                     image: ['https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg'],
                     phone: formData.phone,
@@ -161,7 +157,7 @@ const AdminEditRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Building"
                     name="building"
-                    value={formData.address.building}
+                    value={formData.building}
                     onChange={handleChange}
                     required
                 />
@@ -171,7 +167,7 @@ const AdminEditRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Street"
                     name="street"
-                    value={formData.address.street}
+                    value={formData.street}
                     onChange={handleChange}
                     required
                 />
@@ -181,7 +177,7 @@ const AdminEditRestaurant = () => {
                     id="outlined-multiline-flexible" 
                     label="Zipcode"
                     name="zipcode"
-                    value={formData.address.zipcode}
+                    value={formData.zipcode}
                     onChange={handleChange}
                     required
                 />
