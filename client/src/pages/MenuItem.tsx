@@ -38,7 +38,10 @@ const MenuItem = (props: Props) => {
   let restaurantId = `${params.id}`;
   const auth = useContext(AuthContext) as AuthContextType;
 
+  const [searchTerm, setSearchTerm] = useState('');
   const [restaurants, setRestaurants] = useState<MenuSchema[]>([]);
+
+  const [filteredMenuItems, setFilteredMenuItems] = useState<MenuSchema[]>(restaurants);
 
   const sendGetRequest = async () => {
     try {
@@ -54,6 +57,7 @@ const MenuItem = (props: Props) => {
       )
       console.log(response);
       setRestaurants(response.data)
+      setFilteredMenuItems(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -86,6 +90,28 @@ const MenuItem = (props: Props) => {
   const handleRedirect = () =>{
     navigate("/findRestaurant");
   }
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+
+    console.log("Length of search term ", searchTerm.length)
+    if (searchTerm.length > 0) {
+      setFilteredMenuItems(
+        restaurants.filter((restaurant) =>
+          restaurant.menu_name.toLowerCase().includes(event.target.value.toLowerCase())
+        )
+      );
+      /* setRestaurants(
+        filteredRestaurants
+      ); */
+      console.log("In the else", restaurants);
+    } else {
+      setFilteredMenuItems(restaurants);
+    }
+
+
+  };
+
   const handleDelete = async (index:string) => {
     try {
       const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
@@ -110,15 +136,21 @@ const MenuItem = (props: Props) => {
     <Box sx={{ height: "100%" }}>
       <div className="RestaurantFinder">
 
-        <div className="navbar navbar-light bg-light">
-          <form className="form-inline justify-center">
-            <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
+      <header className="header">
+        {/* <h1>Restaurant Finder</h1> */}
+        <form className="search-form">
+          <input
+            type="text"
+            placeholder="Search Menu..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="search-input"
+          />
+        </form>
+        </header>
         <main className="form-control">
           <section className="menu-list d-flex flex-wrap">
-            {restaurants.map((restaurant, index) => (
+            {filteredMenuItems.map((restaurant, index) => (
               <div className="p-3">
                 <MenuCard
                   menu_id={restaurant.menu_id}

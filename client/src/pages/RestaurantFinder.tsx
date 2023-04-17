@@ -58,9 +58,10 @@ const margin: CSS.Properties = {
 };
 
 const spacing: CSS.Properties = {
-  marginTop: '0.05rem',
+  marginTop: '0.1rem',
   marginBottom: '0.1rem',
-  textAlign: 'center'
+  textAlign: 'center',
+  padding:'0.5rem'
 }
 
 function RestaurantCard(props: RestaurantCardProps) {
@@ -75,7 +76,7 @@ function RestaurantCard(props: RestaurantCardProps) {
         <span> <b>Contact:</b> {props.email}, {props.phone}</span>
       </div>
       {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_ADMIN") && (
-      <div>
+      <div className='paddingButton'>
         <button style={space} className="btn btn-primary" onClick={props.handleEdit}>Update</button> 
         <button className="btn btn-danger" onClick={props.handleDelete}>Delete</button>
       </div>
@@ -99,18 +100,18 @@ const RestaurantFinder = () => {
     setSearchTerm(event.target.value);
 
     console.log("Length of search term ", searchTerm.length)
-    if (searchTerm.length > 1) {
+    if (searchTerm.length > 0) {
       setFilteredRestaurants(
         restaurants.filter((restaurant) =>
           restaurant.name.toLowerCase().includes(event.target.value.toLowerCase())
         )
       );
-      setRestaurants(
+      /* setRestaurants(
         filteredRestaurants
-      );
+      ); */
       console.log("In the else", restaurants);
     } else {
-      setRestaurants(tempVar);
+      setFilteredRestaurants(restaurants);
     }
 
 
@@ -131,6 +132,7 @@ const RestaurantFinder = () => {
       )
       console.log(response);
       setRestaurants(response.data);
+      setFilteredRestaurants(response.data);
       /* setRestaurants(response.data.filter(function (element: Restaurant) {
         return element.reviews[0] !== undefined;
       })); */
@@ -206,7 +208,7 @@ const RestaurantFinder = () => {
             </div>
           ))} */}
 
-          {restaurants.map((restaurant, index) => (
+          {filteredRestaurants.map((restaurant, index) => (
             <RestaurantCard
               key={restaurant.restaurantId}
               name={restaurant.name}
