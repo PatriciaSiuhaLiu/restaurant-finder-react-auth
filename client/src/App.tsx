@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, CssBaseline, Paper, Typography, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import routes from './routes';
 import { Routes, Route } from 'react-router-dom';
 import theme from './theme';
 import Navbar from './components/Navbar';
@@ -17,10 +16,7 @@ import Unauthorized from './pages/Unauthorized';
 import UserRegister from './pages/RegisterUser';
 import LoginNew from './pages/LoginNew';
 import './App.css'
-import PaymentNew from './pages/PaymentNew';
 import MenuItem from './pages/MenuItem';
-import Cart from './pages/Cart';
-import PaymentSuccess from './pages/PaymentSuccess';
 import RestaurantFinder from './pages/RestaurantFinder';
 import PageNotFound from './pages/PageNotFound';
 import AdminAddRestaurant from './pages/AdminAddRestaurant';
@@ -45,10 +41,10 @@ function App() {
 
 
                 <Route element={<PersistLogin />} >
-                  {routes.map(route =>
+                  {/* {routes.map(route =>
                     <Route path={route.path} element={<route.component />} />
                   )
-                  }  //Note: About & Contact us routes are added inside the persisted login because they need to show even after login
+                  } */}  //Note: About & Contact us routes are added inside the persisted login because they need to show even after login
                   <Route path='login' element={<LoginNew />} /> //Note: About & Contact us routes are added inside the persisted login because they need to hide after login
                   <Route index element={<Home />} path="/home" />
                   <Route element={<Home />} path="/" />
@@ -65,10 +61,7 @@ function App() {
                   <Route element={<ProtectedRoute allowedRoles={["ROLE_USER"]} />}>
 
                     <Route path='/restaurant/:id/menu' element={<MenuItem />} />
-                    {/* <Route path='cart' element={<Cart />} /> */}
                     <Route path='/findRestaurant/' element={<RestaurantFinder />} />
-                    <Route path='payment/:amount' element={<PaymentNew />} />
-                    <Route path='paymentSucess/:paymentId' element={<PaymentSuccess />} />
                   </Route >
                 </Route >
               </Route >

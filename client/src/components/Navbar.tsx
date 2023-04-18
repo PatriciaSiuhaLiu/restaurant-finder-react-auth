@@ -13,14 +13,11 @@ import {
     Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import routes from "../routes";
+//import routes from "../routes";
 import { NavLink, useNavigate } from "react-router-dom";
 import AuthContext, { AuthContextType } from "../context/AuthContext";
 import axios from "axios";
-import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
 import LunchDiningTwoToneIcon from '@mui/icons-material/LunchDiningTwoTone';
-import LocalPizzaTwoToneIcon from '@mui/icons-material/LocalPizzaTwoTone';
-import FoodBankTwoToneIcon from '@mui/icons-material/FoodBankTwoTone';
 
 const Logout = styled.a`
     font-size: 19px;
@@ -35,14 +32,7 @@ const Navbar: FC = (): ReactElement => {
         setInitialState(false);
     },[]);
     const navigate = useNavigate();
-    const handleRedirect = () => {
-        navigate("/cart");
-    };
 
-    // let activeStyle = {
-    //     color: "red",
-    // };
-    // const Navlink1 = (<NavLink style={({ isActive }) => isActive ? activeStyle : undefined} to={""}></NavLink>);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const auth = useContext(AuthContext) as AuthContextType;
     const handleOpenNavMenu = (event: any) => {
@@ -55,16 +45,6 @@ const Navbar: FC = (): ReactElement => {
 
     const onLogout = async (event: React.FormEvent) => {
         event.preventDefault();
-
-        // const url = import.meta.env.VITE_ENV === "DEV" ? "http://localhost:8080" : "https://online-food-order-nf2n.onrender.com";
-        // const response = await axios.get(`${url}/api/v1/logout`, {
-        //     withCredentials: true,
-        //     headers: {
-        //         "Authorization": "Bearer " + localStorage.getItem('jwt')
-        //     }
-        // })
-
-        // set isLoggedin false here
         auth.logout();
         navigate('/login')
 
@@ -127,21 +107,6 @@ const Navbar: FC = (): ReactElement => {
                                 display: { xs: "block", md: "none" },
                             }}
                         >
-                            {routes.map((page: any) => (
-                                <Link
-                                    key={page.key}
-                                    component={NavLink}
-                                    to={page.path}
-                                    color="black"
-                                    underline="none"
-                                    variant="button"
-
-                                >
-                                    <MenuItem onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center" >{page.title}</Typography>
-                                    </MenuItem>
-                                </Link>
-                            ))}
                         </Menu>
                     </Box>
                     <Typography
@@ -183,18 +148,6 @@ const Navbar: FC = (): ReactElement => {
                             )}
                             {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
                                 <>
-                                    {/* <Link
-                                        //   key={page.key}
-                                        component={NavLink}
-                                        to={"/payment"}
-                                        color="white"
-                                        aria-label={"Payment"}
-                                        underline="none"
-                                        variant="button"
-                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
-                                    >
-                                        {"Payment"}
-                                    </Link> */}
 
                                     <Link
 
@@ -208,8 +161,6 @@ const Navbar: FC = (): ReactElement => {
                                     >
                                         {"Restaurants"}
                                     </Link>
-
-
                                 </>
                             )}
 
@@ -228,20 +179,7 @@ const Navbar: FC = (): ReactElement => {
                                     >
                                         {"Add Restaurant"}
                                     </Link>
-                                    {/* <Link
-                                        //   key={page.key}
-                                        component={NavLink}
-                                        to={"/editRestaurant"}
-                                        color="white"
-                                        aria-label={"AddRestaurant"}
-                                        underline="none"
-                                        variant="button"
-                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
-                                    >
-                                        {"Edit Restaurant"}
-                                    </Link> */}
                                     <Link
-                                        //   key={page.key}
                                         component={NavLink}
                                         to={"/addMenu"}
                                         color="white"
@@ -252,23 +190,10 @@ const Navbar: FC = (): ReactElement => {
                                     >
                                         {"Add Menu"}
                                     </Link>
-                                    {/* <Link
-                                        //   key={page.key}
-                                        component={NavLink}
-                                        to={"/editMenu"}
-                                        color="white"
-                                        aria-label={"adminAddMenu"}
-                                        underline="none"
-                                        variant="button"
-                                        sx={{ fontSize: "large", marginLeft: "2rem" }}
-                                    >
-                                        {"Edit Menu"}
-                                    </Link> */}
-
                                 </>
                             )}
 
-                            {routes.map((page: any) => (
+                            {/* {routes.map((page: any) => (
                                 <Link
                                     key={page.key}
                                     component={NavLink}
@@ -281,7 +206,7 @@ const Navbar: FC = (): ReactElement => {
                                 >
                                     {page.title}
                                 </Link>
-                            ))}
+                            ))} */}
 
                         </Box>
                         <Box sx={{ flexGrow: 1, justifyContent: "flex-end", display: { xs: "none", md: "flex" } }}>
@@ -294,16 +219,6 @@ const Navbar: FC = (): ReactElement => {
                                     marginLeft: "1rem",
                                 }}
                             >
-                                {/* {auth.auth.email && auth.auth.roles.find(role => role == "ROLE_USER") && (
-                                    <>
-                                        <IconButton aria-label="cart" color="inherit" onClick={handleRedirect} edge="end"
-                                            style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem' }}>
-                                            <ShoppingCartTwoToneIcon />
-                                        </IconButton>
-
-
-                                    </>
-                                )} */}
                                 {!auth.auth.email && (
                                     <>
 

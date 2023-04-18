@@ -201,12 +201,6 @@ const RestaurantFinder = () => {
       </header>
       <main className="main">
         <section className="restaurant-list">
-          {/* {restaurants.map((restaurant) => (
-            <div key={restaurant.id} className="restaurant-card">
-              <img src={restaurant.photo} alt={restaurant.name} className="restaurant-photo" />
-              <h2 className="restaurant-name">{restaurant.name}</h2>
-            </div>
-          ))} */}
 
           {filteredRestaurants.map((restaurant, index) => (
             <RestaurantCard
